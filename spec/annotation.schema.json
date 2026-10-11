@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ry-yoshida-dev/VideoPlayerUI/spec/annotation.schema.json",
+  "title": "Annotation Document",
+  "type": "object",
+  "required": ["formatVersion", "frames"],
+  "properties": {
+    "formatVersion": { "const": 1 },
+    "coordinateSpace": { "enum": ["normalized", "pixel"], "default": "normalized" },
+    "frameSize": { "$ref": "#/$defs/size" },
+    "frames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["timeId", "annotations"],
+        "properties": {
+          "timeId": { "type": "integer", "minimum": 0 },
+          "annotations": { "type": "array", "items": { "$ref": "#/$defs/annotation" } }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "if": { "properties": { "coordinateSpace": { "const": "pixel" } }, "required": ["coordinateSpace"] },
+  "then": { "required": ["frameSize"] },
+  "additionalProperties": false,
+  "$defs": {
+    "size": {
+      "type": "object",
+      "required": ["width", "height"],
+      "properties": {
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "point": {
+      "type": "object",
+      "required": ["x", "y"],
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" }
+      }
+    },
+    "annotation": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": {
+        "kind": { "type": "string", "minLength": 1 },
+        "label": { "type": "string" },
+        "score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "trackId": { "type": ["integer", "string"] },
+        "color": { "type": "string" },
+        "attributes": {
+          "type": "object",
+          "additionalProperties": { "type": ["string", "number", "boolean"] }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "bounding-box" } } },
+          "then": {
+            "required": ["box"],
+            "properties": {
+              "box": {
+                "type": "object",
+                "required": ["x", "y", "width", "height"],
+                "properties": {
+                  "x": { "type": "number" },
+                  "y": { "type": "number" },
+                  "width": { "type": "number", "minimum": 0 },
+                  "height": { "type": "number", "minimum": 0 }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "polygon" } } },
+          "then": {
+            "required": ["points"],
+            "properties": {
+              "points": { "type": "array", "minItems": 3, "items": { "$ref": "#/$defs/point" } },
+              "isClosed": { "type": "boolean", "default": true }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "keypoints" } } },
+          "then": {
+            "required": ["points"],
+            "properties": {
+              "points": {
+                "type": "array",
+                "items": {
+                  "allOf": [{ "$ref": "#/$defs/point" }, { "properties": { "score": { "type": "number", "minimum": 0, "maximum": 1 } } }]
+                }
+              },
+              "edges": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "prefixItems": [
+                    { "type": "integer", "minimum": 0 },
+                    { "type": "integer", "minimum": 0 }
+                  ],
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "video-player-ui",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/core",
+    "packages/annotations",
+    "packages/analysis",
+    "packages/web",
+    "packages/annotations-web",
+    "packages/analysis-web",
+    "examples/web"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace packages/core --workspace packages/annotations --workspace packages/analysis --workspace packages/web --workspace packages/annotations-web --workspace packages/analysis-web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@types/node": "^26.6.5",
+    "eslint": "^9.39.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "prettier": "^3.9.10",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.71.1"
+  }
+}

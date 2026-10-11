@@ -1,0 +1,41 @@
+export { AnnotationDocumentParser } from "./annotation/AnnotationDocumentParser.js";
+export { AnnotationFormatError } from "./annotation/AnnotationFormatError.js";
+export { AnnotationKind } from "./annotation/AnnotationKind.js";
+export { AnnotationParseContext } from "./annotation/AnnotationParseContext.js";
+export { CoordinateSpace } from "./annotation/CoordinateSpace.js";
+export { JsonObjectReader } from "./annotation/JsonObjectReader.js";
+export type { AnnotationBase } from "./annotation/AnnotationBase.js";
+export type { AnnotationCommonFields } from "./annotation/AnnotationCommonFields.js";
+export type { AnnotationDocument } from "./annotation/AnnotationDocument.js";
+export type { Annotation, AnnotationKindName, AnnotationTypeMap } from "./annotation/AnnotationTypeMap.js";
+export type { AttributeValue } from "./annotation/AttributeValue.js";
+export type { BoundingBoxAnnotation } from "./annotation/BoundingBoxAnnotation.js";
+export type { Keypoint } from "./annotation/Keypoint.js";
+export type { KeypointEdge } from "./annotation/KeypointEdge.js";
+export type { KeypointsAnnotation } from "./annotation/KeypointsAnnotation.js";
+export type { PolygonAnnotation } from "./annotation/PolygonAnnotation.js";
+export type { TrackId } from "./annotation/TrackId.js";
+
+export { ColorPalette } from "./overlay/ColorPalette.js";
+export { defaultOverlayTheme } from "./overlay/defaultOverlayTheme.js";
+export { LabelPainter } from "./overlay/LabelPainter.js";
+export { OverlayComposer } from "./overlay/OverlayComposer.js";
+export type { LabelTheme } from "./overlay/LabelTheme.js";
+export type { OverlayHit } from "./overlay/OverlayHit.js";
+export type { OverlayLayer } from "./overlay/OverlayLayer.js";
+export type { OverlayRenderRequest } from "./overlay/OverlayRenderRequest.js";
+export type { OverlayTheme } from "./overlay/OverlayTheme.js";
+export type { RenderContext } from "./overlay/RenderContext.js";
+
+export { AnnotationPluginRegistry } from "./plugin/AnnotationPluginRegistry.js";
+export { BoundingBoxPlugin } from "./plugin/builtin/BoundingBoxPlugin.js";
+export { KeypointsPlugin } from "./plugin/builtin/KeypointsPlugin.js";
+export { PolygonPlugin } from "./plugin/builtin/PolygonPlugin.js";
+export type { AnnotationPlugin } from "./plugin/AnnotationPlugin.js";
+
+export { AnnotationLookupPolicy } from "./source/AnnotationLookupPolicy.js";
+export { FrameAnnotationIndex } from "./source/FrameAnnotationIndex.js";
+export { StaticAnnotationSource } from "./source/StaticAnnotationSource.js";
+export { StreamingAnnotationSource } from "./source/StreamingAnnotationSource.js";
+export type { AnnotationLookupOptions } from "./source/AnnotationLookupOptions.js";
+export type { AnnotationSource } from "./source/AnnotationSource.js";

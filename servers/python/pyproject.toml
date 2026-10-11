@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "video-player-ui-server"
+version = "0.1.0"
+authors = [
+  { name = "Ryuto Yoshida" },
+]
+description = "WebSocket analysis server for VideoPlayerUI live analysis: frames in, annotations out."
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Typing :: Typed",
+]
+dependencies = [
+    "numpy",
+    "pillow",
+    "websockets>=14",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "mypy", "basedpyright", "ruff"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+video_player_ui_server = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "examples"]
+
+[tool.mypy]
+strict = true
+mypy_path = "src"
+
+[tool.pyright]
+include = ["src", "tests", "examples"]
+extraPaths = ["src", "examples", "tests"]
+typeCheckingMode = "strict"
+reportMissingTypeStubs = false
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"

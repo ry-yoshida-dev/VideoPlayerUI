@@ -1,0 +1,870 @@
+{
+  "generatedBy": "spec/conformance/generate_timeline_cases.py",
+  "validCases": [
+    {
+      "input": {
+        "frameCount": 10,
+        "indexBase": 1,
+        "preSampledFrequency": 1,
+        "samplingFrequency": 1,
+        "startTimeId": 1,
+        "endTimeId": null
+      },
+      "expected": {
+        "mediaLastTimeId": 10,
+        "sampledStepCount": 10,
+        "sampledTimeIds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "mediaIndices": [
+          {
+            "timeId": 1,
+            "mediaIndex": 0
+          },
+          {
+            "timeId": 2,
+            "mediaIndex": 1
+          },
+          {
+            "timeId": 3,
+            "mediaIndex": 2
+          },
+          {
+            "timeId": 4,
+            "mediaIndex": 3
+          },
+          {
+            "timeId": 5,
+            "mediaIndex": 4
+          },
+          {
+            "timeId": 6,
+            "mediaIndex": 5
+          },
+          {
+            "timeId": 7,
+            "mediaIndex": 6
+          },
+          {
+            "timeId": 8,
+            "mediaIndex": 7
+          },
+          {
+            "timeId": 9,
+            "mediaIndex": 8
+          },
+          {
+            "timeId": 10,
+            "mediaIndex": 9
+          }
+        ],
+        "rejectedTimeIds": [
+          -1,
+          0,
+          11,
+          12
+        ]
+      }
+    },
+    {
+      "input": {
+        "frameCount": 10,
+        "indexBase": 0,
+        "preSampledFrequency": 1,
+        "samplingFrequency": 1,
+        "startTimeId": 0,
+        "endTimeId": null
+      },
+      "expected": {
+        "mediaLastTimeId": 9,
+        "sampledStepCount": 10,
+        "sampledTimeIds": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "mediaIndices": [
+          {
+            "timeId": 0,
+            "mediaIndex": 0
+          },
+          {
+            "timeId": 1,
+            "mediaIndex": 1
+          },
+          {
+            "timeId": 2,
+            "mediaIndex": 2
+          },
+          {
+            "timeId": 3,
+            "mediaIndex": 3
+          },
+          {
+            "timeId": 4,
+            "mediaIndex": 4
+          },
+          {
+            "timeId": 5,
+            "mediaIndex": 5
+          },
+          {
+            "timeId": 6,
+            "mediaIndex": 6
+          },
+          {
+            "timeId": 7,
+            "mediaIndex": 7
+          },
+          {
+            "timeId": 8,
+            "mediaIndex": 8
+          },
+          {
+            "timeId": 9,
+            "mediaIndex": 9
+          }
+        ],
+        "rejectedTimeIds": [
+          -2,
+          -1,
+          10,
+          11
+        ]
+      }
+    },
+    {
+      "input": {
+        "frameCount": 10,
+        "indexBase": 1,
+        "preSampledFrequency": 1,
+        "samplingFrequency": 3,
+        "startTimeId": 1,
+        "endTimeId": null
+      },
+      "expected": {
+        "mediaLastTimeId": 10,
+        "sampledStepCount": 4,
+        "sampledTimeIds": [
+          1,
+          4,
+          7,
+          10
+        ],
+        "mediaIndices": [
+          {
+            "timeId": 1,
+            "mediaIndex": 0
+          },
+          {
+            "timeId": 2,
+            "mediaIndex": 1
+          },
+          {
+            "timeId": 3,
+            "mediaIndex": 2
+          },
+          {
+            "timeId": 4,
+            "mediaIndex": 3
+          },
+          {
+            "timeId": 5,
+            "mediaIndex": 4
+          },
+          {
+            "timeId": 6,
+            "mediaIndex": 5
+          },
+          {
+            "timeId": 7,
+            "mediaIndex": 6
+          },
+          {
+            "timeId": 8,
+            "mediaIndex": 7
+          },
+          {
+            "timeId": 9,
+            "mediaIndex": 8
+          },
+          {
+            "timeId": 10,
+            "mediaIndex": 9
+          }
+        ],
+        "rejectedTimeIds": [
+          -1,
+          0,
+          11,
+          12
+        ]
+      }
+    },
+    {
+      "input": {
+        "frameCount": 10,
+        "indexBase": 1,
+        "preSampledFrequency": 1,
+        "samplingFrequency": 3,
+        "startTimeId": 2,
+        "endTimeId": 8
+      },
+      "expected": {
+        "mediaLastTimeId": 10,
+        "sampledStepCount": 3,
+        "sampledTimeIds": [
+          2,
+          5,
+          8
+        ],
+        "mediaIndices": [
+          {
+            "timeId": 1,
+            "mediaIndex": 0
+          },
+          {
+            "timeId": 2,
+            "mediaIndex": 1
+          },
+          {
+            "timeId": 3,
+            "mediaIndex": 2
+          },
+          {
+            "timeId": 4,
+            "mediaIndex": 3
+          },
+          {
+            "timeId": 5,
+            "mediaIndex": 4
+          },
+          {
+            "timeId": 6,
+            "mediaIndex": 5
+          },
+          {
+            "timeId": 7,
+            "mediaIndex": 6
+          },
+          {
+            "timeId": 8,
+            "mediaIndex": 7
+          },
+          {
+            "timeId": 9,
+            "mediaIndex": 8
+          },
+          {
+            "timeId": 10,
+            "mediaIndex": 9
+          }
+        ],
+        "rejectedTimeIds": [
+          -1,
+          0,
+          11,
+          12
+        ]
+      }
+    },
+    {
+      "input": {
+        "frameCount": 10,
+        "indexBase": 0,
+        "preSampledFrequency": 5,
+        "samplingFrequency": 1,
+        "startTimeId": 0,
+        "endTimeId": null
+      },
+      "expected": {
+        "mediaLastTimeId": 45,
+        "sampledStepCount": 10,
+        "sampledTimeIds": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35,
+          40,
+          45
+        ],
+        "mediaIndices": [
+          {
+            "timeId": 0,
+            "mediaIndex": 0
+          },
+          {
+            "timeId": 5,
+            "mediaIndex": 1
+          },
+          {
+            "timeId": 10,
+            "mediaIndex": 2
+          },
+          {
+            "timeId": 15,
+            "mediaIndex": 3
+          },
+          {
+            "timeId": 20,
+            "mediaIndex": 4
+          },
+          {
+            "timeId": 25,
+            "mediaIndex": 5
+          },
+          {
+            "timeId": 30,
+            "mediaIndex": 6
+          },
+          {
+            "timeId": 35,
+            "mediaIndex": 7
+          },
+          {
+            "timeId": 40,
+            "mediaIndex": 8
+          },
+          {
+            "timeId": 45,
+            "mediaIndex": 9
+          }
+        ],
+        "rejectedTimeIds": [
+          -2,
+          -1,
+          1,
+          2,
+          3,
+          4,
+          6,
+          7,
+          8,
+          9,
+          11,
+          12,
+          13,
+          14,
+          16,
+          17,
+          18,
+          19,
+          21,
+          22,
+          23,
+          24,
+          26,
+          27,
+          28,
+          29,
+          31,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39,
+          41,
+          42,
+          43,
+          44,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51
+        ]
+      }
+    },
+    {
+      "input": {
+        "frameCount": 10,
+        "indexBase": 1,
+        "preSampledFrequency": 5,
+        "samplingFrequency": 2,
+        "startTimeId": 11,
+        "endTimeId": null
+      },
+      "expected": {
+        "mediaLastTimeId": 46,
+        "sampledStepCount": 4,
+        "sampledTimeIds": [
+          11,
+          21,
+          31,
+          41
+        ],
+        "mediaIndices": [
+          {
+            "timeId": 1,
+            "mediaIndex": 0
+          },
+          {
+            "timeId": 6,
+            "mediaIndex": 1
+          },
+          {
+            "timeId": 11,
+            "mediaIndex": 2
+          },
+          {
+            "timeId": 16,
+            "mediaIndex": 3
+          },
+          {
+            "timeId": 21,
+            "mediaIndex": 4
+          },
+          {
+            "timeId": 26,
+            "mediaIndex": 5
+          },
+          {
+            "timeId": 31,
+            "mediaIndex": 6
+          },
+          {
+            "timeId": 36,
+            "mediaIndex": 7
+          },
+          {
+            "timeId": 41,
+            "mediaIndex": 8
+          },
+          {
+            "timeId": 46,
+            "mediaIndex": 9
+          }
+        ],
+        "rejectedTimeIds": [
+          -1,
+          0,
+          2,
+          3,
+          4,
+          5,
+          7,
+          8,
+          9,
+          10,
+          12,
+          13,
+          14,
+          15,
+          17,
+          18,
+          19,
+          20,
+          22,
+          23,
+          24,
+          25,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          35,
+          37,
+          38,
+          39,
+          40,
+          42,
+          43,
+          44,
+          45,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52
+        ]
+      }
+    },
+    {
+      "input": {
+        "frameCount": 10,
+        "indexBase": 1,
+        "preSampledFrequency": 3,
+        "samplingFrequency": 2,
+        "startTimeId": 4,
+        "endTimeId": 20
+      },
+      "expected": {
+        "mediaLastTimeId": 28,
+        "sampledStepCount": 3,
+        "sampledTimeIds": [
+          4,
+          10,
+          16
+        ],
+        "mediaIndices": [
+          {
+            "timeId": 1,
+            "mediaIndex": 0
+          },
+          {
+            "timeId": 4,
+            "mediaIndex": 1
+          },
+          {
+            "timeId": 7,
+            "mediaIndex": 2
+          },
+          {
+            "timeId": 10,
+            "mediaIndex": 3
+          },
+          {
+            "timeId": 13,
+            "mediaIndex": 4
+          },
+          {
+            "timeId": 16,
+            "mediaIndex": 5
+          },
+          {
+            "timeId": 19,
+            "mediaIndex": 6
+          },
+          {
+            "timeId": 22,
+            "mediaIndex": 7
+          },
+          {
+            "timeId": 25,
+            "mediaIndex": 8
+          },
+          {
+            "timeId": 28,
+            "mediaIndex": 9
+          }
+        ],
+        "rejectedTimeIds": [
+          -1,
+          0,
+          2,
+          3,
+          5,
+          6,
+          8,
+          9,
+          11,
+          12,
+          14,
+          15,
+          17,
+          18,
+          20,
+          21,
+          23,
+          24,
+          26,
+          27,
+          29,
+          30,
+          31,
+          32
+        ]
+      }
+    },
+    {
+      "input": {
+        "frameCount": 10,
+        "indexBase": 1,
+        "preSampledFrequency": 2,
+        "samplingFrequency": 1,
+        "startTimeId": 1,
+        "endTimeId": 100
+      },
+      "expected": {
+        "mediaLastTimeId": 19,
+        "sampledStepCount": 10,
+        "sampledTimeIds": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19
+        ],
+        "mediaIndices": [
+          {
+            "timeId": 1,
+            "mediaIndex": 0
+          },
+          {
+            "timeId": 3,
+            "mediaIndex": 1
+          },
+          {
+            "timeId": 5,
+            "mediaIndex": 2
+          },
+          {
+            "timeId": 7,
+            "mediaIndex": 3
+          },
+          {
+            "timeId": 9,
+            "mediaIndex": 4
+          },
+          {
+            "timeId": 11,
+            "mediaIndex": 5
+          },
+          {
+            "timeId": 13,
+            "mediaIndex": 6
+          },
+          {
+            "timeId": 15,
+            "mediaIndex": 7
+          },
+          {
+            "timeId": 17,
+            "mediaIndex": 8
+          },
+          {
+            "timeId": 19,
+            "mediaIndex": 9
+          }
+        ],
+        "rejectedTimeIds": [
+          -1,
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          12,
+          14,
+          16,
+          18,
+          20,
+          21,
+          22
+        ]
+      }
+    },
+    {
+      "input": {
+        "frameCount": 1,
+        "indexBase": 1,
+        "preSampledFrequency": 1,
+        "samplingFrequency": 1,
+        "startTimeId": 1,
+        "endTimeId": null
+      },
+      "expected": {
+        "mediaLastTimeId": 1,
+        "sampledStepCount": 1,
+        "sampledTimeIds": [
+          1
+        ],
+        "mediaIndices": [
+          {
+            "timeId": 1,
+            "mediaIndex": 0
+          }
+        ],
+        "rejectedTimeIds": [
+          -1,
+          0,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "input": {
+        "frameCount": 7,
+        "indexBase": 0,
+        "preSampledFrequency": 4,
+        "samplingFrequency": 3,
+        "startTimeId": 8,
+        "endTimeId": 23
+      },
+      "expected": {
+        "mediaLastTimeId": 24,
+        "sampledStepCount": 2,
+        "sampledTimeIds": [
+          8,
+          20
+        ],
+        "mediaIndices": [
+          {
+            "timeId": 0,
+            "mediaIndex": 0
+          },
+          {
+            "timeId": 4,
+            "mediaIndex": 1
+          },
+          {
+            "timeId": 8,
+            "mediaIndex": 2
+          },
+          {
+            "timeId": 12,
+            "mediaIndex": 3
+          },
+          {
+            "timeId": 16,
+            "mediaIndex": 4
+          },
+          {
+            "timeId": 20,
+            "mediaIndex": 5
+          },
+          {
+            "timeId": 24,
+            "mediaIndex": 6
+          }
+        ],
+        "rejectedTimeIds": [
+          -2,
+          -1,
+          1,
+          2,
+          3,
+          5,
+          6,
+          7,
+          9,
+          10,
+          11,
+          13,
+          14,
+          15,
+          17,
+          18,
+          19,
+          21,
+          22,
+          23,
+          25,
+          26,
+          27,
+          28,
+          29
+        ]
+      }
+    },
+    {
+      "input": {
+        "frameCount": 5,
+        "indexBase": 1,
+        "preSampledFrequency": 1,
+        "samplingFrequency": 1,
+        "startTimeId": 9,
+        "endTimeId": null
+      },
+      "expected": {
+        "mediaLastTimeId": 5,
+        "sampledStepCount": 0,
+        "sampledTimeIds": [],
+        "mediaIndices": [
+          {
+            "timeId": 1,
+            "mediaIndex": 0
+          },
+          {
+            "timeId": 2,
+            "mediaIndex": 1
+          },
+          {
+            "timeId": 3,
+            "mediaIndex": 2
+          },
+          {
+            "timeId": 4,
+            "mediaIndex": 3
+          },
+          {
+            "timeId": 5,
+            "mediaIndex": 4
+          }
+        ],
+        "rejectedTimeIds": [
+          -1,
+          0,
+          6,
+          7
+        ]
+      }
+    }
+  ],
+  "rejectedInputs": [
+    {
+      "frameCount": 10,
+      "indexBase": 1,
+      "preSampledFrequency": 1,
+      "samplingFrequency": 1,
+      "startTimeId": 0,
+      "endTimeId": null
+    },
+    {
+      "frameCount": 10,
+      "indexBase": 1,
+      "preSampledFrequency": 5,
+      "samplingFrequency": 1,
+      "startTimeId": 3,
+      "endTimeId": null
+    },
+    {
+      "frameCount": 10,
+      "indexBase": 1,
+      "preSampledFrequency": 1,
+      "samplingFrequency": 1,
+      "startTimeId": 1,
+      "endTimeId": 0
+    },
+    {
+      "frameCount": 10,
+      "indexBase": 1,
+      "preSampledFrequency": 1,
+      "samplingFrequency": 1,
+      "startTimeId": 5,
+      "endTimeId": 4
+    },
+    {
+      "frameCount": 10,
+      "indexBase": 0,
+      "preSampledFrequency": 1,
+      "samplingFrequency": 1,
+      "startTimeId": 0,
+      "endTimeId": -2
+    }
+  ]
+}
