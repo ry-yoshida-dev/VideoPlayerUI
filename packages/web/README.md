@@ -50,9 +50,9 @@ The player draws nothing over the video by itself. Children extend it:
 | [src/frame-table](src/frame-table) | Frame table resolvers: MP4 sample table, constant frame rate, fallback chain |
 | [src/surface](src/surface) | `CanvasDrawingSurface`, the Canvas 2D `DrawingSurface` |
 | [src/capture](src/capture) | `FrameCapture`: frame on screen or any image, encoded to a `Blob` or the clipboard |
-| [src/decoding](src/decoding) | `Mp4SampleTable` and `SequentialFrameDecoder`: exact frame-by-frame WebCodecs decoding of MP4 |
-| [src/source](src/source) | Video sources and chunked reading of URLs and files |
-| [test](test) | MP4 sample table, WebCodecs decoder (against fake codecs) and frame table resolver tests |
+| [src/decoding](src/decoding) | `Mp4MetadataReader`, `Mp4SampleTable` and `SequentialFrameDecoder`: MP4 structure parsing without the media data, and exact frame-by-frame WebCodecs decoding |
+| [src/source](src/source) | Video sources, `CrossOrigin` modes and byte range reading of URLs and files |
+| [test](test) | MP4 parsing (plain, movie header at the end, fragmented), byte range reading, WebCodecs decoder (against fake codecs) and frame table resolver tests |
 
 ## Examples
 
@@ -92,7 +92,25 @@ function CenterGuide() {
 }
 ```
 
-MP4 and MOV files give exact frame timestamps. Other containers, and
-fragmented MP4, need `framesPerSecond` or a custom `frameTableResolver`. URL
-sources are read once more to find the sample table; files with the movie
-header in front (`-movflags +faststart`) only cost their first chunk.
+## Supported sources
+
+| Source | Frame table | Notes |
+|--------|-------------|-------|
+| MP4 / MOV, movie header in front or at the end | Exact | Only the container structure is read; media data is skipped with range requests |
+| Fragmented MP4 | Exact | Every fragment header is read; over HTTP that is one request per fragment |
+| WebM, MKV and other containers the browser plays | `framesPerSecond` | Constant frame rate assumed, or pass a custom `frameTableResolver` |
+| HLS / DASH | Not supported | |
+
+URLs on another origin play with the default `crossOrigin` of
+`CrossOrigin.NONE`, but reading their frame table and their frames (frame
+copy, capture, live analysis) needs CORS. Pass
+`crossOrigin={CrossOrigin.ANONYMOUS}`, or `CrossOrigin.USE_CREDENTIALS` for
+cookie-authenticated media, and have the server send
+`Access-Control-Allow-Origin` and allow the `Range` header:
+
+```tsx
+<VideoPlayer source="https://cdn.example.com/run-42.mp4" crossOrigin={CrossOrigin.ANONYMOUS} />
+```
+
+Servers without range support are downloaded whole once to read the frame
+table; seeking in the browser needs range support anyway.

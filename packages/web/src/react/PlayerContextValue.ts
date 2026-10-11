@@ -3,6 +3,7 @@ import type { ContentFit, PlayerController, Unsubscribe } from "@video-player-ui
 
 import type { CapturedFrame } from "../capture/CapturedFrame.js";
 import type { FrameCaptureOptions } from "../capture/FrameCaptureOptions.js";
+import type { CrossOrigin } from "../source/CrossOrigin.js";
 import type { VideoSource } from "../source/VideoSource.js";
 
 /**
@@ -13,6 +14,8 @@ export interface PlayerContextValue {
   readonly controller: PlayerController;
   /** Video being played, for extensions that decode it themselves, such as look-ahead analysis. */
   readonly source: VideoSource;
+  /** How the source is requested; extensions reading it themselves must send the same credentials. */
+  readonly crossOrigin: CrossOrigin;
   /** How the video is fitted into the player; overlays must use the same fit. */
   readonly contentFit: ContentFit;
   /** Element of the control bar that {@link PlayerControlSlot} renders into, or null while the bar is hidden. */

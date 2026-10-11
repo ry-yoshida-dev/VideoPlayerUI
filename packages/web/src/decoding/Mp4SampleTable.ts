@@ -1,15 +1,17 @@
 import { FrameTable } from "@video-player-ui/core";
-import { createFile, MP4BoxBuffer, MultiBufferStream, VisualSampleEntry } from "mp4box";
+import { MultiBufferStream, VisualSampleEntry } from "mp4box";
 import type { ISOFile, Movie, Sample, SampleEntry, Track } from "mp4box";
 
 import { FrameTableResolutionError } from "../frame-table/FrameTableResolutionError.js";
-import { ByteSourceReader } from "../source/ByteSourceReader.js";
-import type { VideoSource } from "../source/VideoSource.js";
+import type { ByteRangeReader } from "../source/ByteRangeReader.js";
+import type { Mp4Metadata } from "./Mp4Metadata.js";
+import { Mp4MetadataReader } from "./Mp4MetadataReader.js";
 import type { Mp4Sample } from "./Mp4Sample.js";
 
 /**
- * Sample table of the first video track of an MP4 or MOV file: what to feed
- * a decoder, in which order, and which stored frame each sample shows.
+ * Sample table of the first video track of an MP4 or MOV file, fragmented or
+ * not: what to feed a decoder, in which order, and which stored frame each
+ * sample shows.
  *
  * Presentation times apply the edit list the way browsers and FFmpeg do, so
  * stored frame indices match the player's frame table and TimeSeriesIterator.
@@ -34,38 +36,17 @@ export class Mp4SampleTable {
   }
 
   /**
-   * Read the sample table, stopping as soon as the movie header is parsed.
+   * Read the sample table, skipping the media data.
    *
-   * @param source - URL or in-memory file.
+   * @param reader - Reader of the file; sharing it with a
+   *   {@link SequentialFrameDecoder} downloads a file from a server without
+   *   range support only once.
    * @returns The sample table.
    * @throws FrameTableResolutionError When the file is not MP4, has no video track or lists no samples.
    */
-  static async read(source: VideoSource): Promise<Mp4SampleTable> {
-    const file: ISOFile = createFile();
-    const parsed: { movie: Movie | null; error: string | null } = { movie: null, error: null };
-    file.onReady = (info: Movie): void => {
-      parsed.movie = info;
-    };
-    file.onError = (module: string, message: string): void => {
-      parsed.error = `${module}: ${message}`;
-    };
-    try {
-      for await (const chunk of new ByteSourceReader(source).chunks()) {
-        file.appendBuffer(MP4BoxBuffer.fromArrayBuffer(chunk.bytes, chunk.offset));
-        if (parsed.movie !== null || parsed.error !== null) {
-          break;
-        }
-      }
-      if (parsed.movie === null) {
-        file.flush();
-      }
-    } catch (error: unknown) {
-      throw new FrameTableResolutionError("The file could not be read as MP4", { cause: error });
-    }
-    if (parsed.movie === null) {
-      throw new FrameTableResolutionError(parsed.error ?? "The file has no MP4 movie header");
-    }
-    return Mp4SampleTable.fromParsedFile(file, parsed.movie);
+  static async read(reader: ByteRangeReader): Promise<Mp4SampleTable> {
+    const metadata: Mp4Metadata = await new Mp4MetadataReader(reader).read();
+    return Mp4SampleTable.fromParsedFile(metadata.file, metadata.movie);
   }
 
   /**
@@ -92,7 +73,7 @@ export class Mp4SampleTable {
     }
     const rawSamples: readonly Sample[] = file.getTrackSamplesInfo(track.id);
     if (rawSamples.length === 0) {
-      throw new FrameTableResolutionError("The video track lists no samples, as in fragmented MP4");
+      throw new FrameTableResolutionError("The video track lists no samples");
     }
     const startOffset: number = Mp4SampleTable.presentationOffset(track);
     const toleranceMicroseconds: number = FrameTable.CLOCK_TOLERANCE_SECONDS * 1e6;

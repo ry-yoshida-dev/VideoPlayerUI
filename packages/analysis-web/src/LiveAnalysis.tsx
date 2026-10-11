@@ -48,7 +48,7 @@ export function LiveAnalysis(props: LiveAnalysisProps): ReactElement {
   const { analyzer, encoding, quality }: LiveAnalysisProps = props;
   const lookaheadSeconds: number = props.lookaheadSeconds ?? 1;
   const maxInFlight: number = props.maxInFlight ?? 4;
-  const { controller, source: videoSource, captureFrame }: PlayerContextValue = usePlayerContext();
+  const { controller, source: videoSource, crossOrigin, captureFrame }: PlayerContextValue = usePlayerContext();
   const [decoder, setDecoder] = useState<SequentialFrameDecoder | null>(null);
   const [displayedTimeId, setDisplayedTimeId] = useState<number | null>(null);
   const [scheduler, setScheduler] = useState<AnalysisScheduler | null>(null);
@@ -85,17 +85,18 @@ export function LiveAnalysis(props: LiveAnalysisProps): ReactElement {
       return undefined;
     }
     let isCurrent: boolean = true;
-    Mp4SampleTable.read(videoSource)
+    const reader: ByteRangeReader = new ByteRangeReader(videoSource, crossOrigin);
+    Mp4SampleTable.read(reader)
       .then((table: Mp4SampleTable) => {
         if (isCurrent) {
-          setDecoder(new SequentialFrameDecoder(table, new ByteRangeReader(videoSource)));
+          setDecoder(new SequentialFrameDecoder(table, reader));
         }
       })
       .catch(() => undefined);
     return () => {
       isCurrent = false;
     };
-  }, [videoSource]);
+  }, [videoSource, crossOrigin]);
 
   useEffect(() => {
     const created: AnalysisScheduler = new AnalysisScheduler({ analyzer, source: resultSource, maxInFlight });

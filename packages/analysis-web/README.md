@@ -20,6 +20,9 @@ details, such as the number of analyzed frames.
 
 Without WebCodecs or for non-MP4 sources, the frame on screen is captured
 from the video element instead; results then trail playback by the round trip.
+Either way, a URL on another origin needs the player's `crossOrigin` set and
+CORS headers on its server, as described in the
+[web package](../web/README.md#supported-sources).
 
 ## Components
 

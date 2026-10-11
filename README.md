@@ -4,7 +4,8 @@
 
 VideoPlayerUI is a frame-accurate video player for engineers inspecting
 footage, such as model outputs on recorded video, embedded in React
-applications. It runs entirely on the client and plays URLs and local files.
+applications. It runs entirely on the client and plays URLs and local files
+([supported sources](packages/web/README.md#supported-sources)).
 The picture is never covered: icon-based controls sit below it and offer a
 seek bar showing time ids, play, 10 s back, 30 s forward, frame step, frame
 copy, a time id field that jumps on Enter, speed, mute, loop and full screen.

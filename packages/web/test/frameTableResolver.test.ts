@@ -4,18 +4,32 @@ import { describe, it } from "node:test";
 
 import type { FrameTable } from "@video-player-ui/core";
 
-import { ConstantFrameRateResolver, FallbackFrameTableResolver, FrameTableResolutionError, Mp4FrameTableResolver } from "../src/index.js";
+import {
+  ConstantFrameRateResolver,
+  CrossOrigin,
+  FallbackFrameTableResolver,
+  FrameTableResolutionError,
+  Mp4FrameTableResolver,
+} from "../src/index.js";
 
 describe("frame table resolvers", () => {
   it("derives a constant frame rate table from the duration", async () => {
-    const frameTable: FrameTable = await new ConstantFrameRateResolver(25).resolve({ source: "unused.webm", durationSeconds: 2 });
+    const frameTable: FrameTable = await new ConstantFrameRateResolver(25).resolve({
+      source: "unused.webm",
+      crossOrigin: CrossOrigin.NONE,
+      durationSeconds: 2,
+    });
     assert.equal(frameTable.frameCount, 50);
     assert.equal(frameTable.timestampOf(10), 0.4);
   });
 
   it("rejects a constant frame rate without a finite duration", async () => {
     await assert.rejects(
-      new ConstantFrameRateResolver(25).resolve({ source: "live.m3u8", durationSeconds: Number.POSITIVE_INFINITY }),
+      new ConstantFrameRateResolver(25).resolve({
+        source: "live.m3u8",
+        crossOrigin: CrossOrigin.NONE,
+        durationSeconds: Number.POSITIVE_INFINITY,
+      }),
       FrameTableResolutionError,
     );
     assert.throws(() => new ConstantFrameRateResolver(0), RangeError);
@@ -26,7 +40,11 @@ describe("frame table resolvers", () => {
       new Mp4FrameTableResolver(),
       new ConstantFrameRateResolver(10),
     ]);
-    const frameTable: FrameTable = await resolver.resolve({ source: new Blob([new Uint8Array(64)]), durationSeconds: 1 });
+    const frameTable: FrameTable = await resolver.resolve({
+      source: new Blob([new Uint8Array(64)]),
+      crossOrigin: CrossOrigin.NONE,
+      durationSeconds: 1,
+    });
     assert.equal(frameTable.frameCount, 10);
   });
 
@@ -34,6 +52,7 @@ describe("frame table resolvers", () => {
     const bytes: Buffer = await readFile(new URL("./fixtures/bframes.mp4", import.meta.url));
     const frameTable: FrameTable = await new Mp4FrameTableResolver().resolve({
       source: new Blob([new Uint8Array(bytes)]),
+      crossOrigin: CrossOrigin.NONE,
       durationSeconds: 1.2,
     });
     assert.equal(frameTable.frameCount, 12);

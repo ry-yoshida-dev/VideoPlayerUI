@@ -9,6 +9,7 @@ import type { CapturedFrame } from "../capture/CapturedFrame.js";
 import type { FrameCaptureOptions } from "../capture/FrameCaptureOptions.js";
 import type { CopyNotice } from "./controls/CopyNotice.js";
 import { CopyStatus } from "./controls/CopyStatus.js";
+import { CrossOrigin } from "../source/CrossOrigin.js";
 import { PlayerControls } from "./controls/PlayerControls.js";
 import { defaultPlayerLabels } from "./defaultPlayerLabels.js";
 import type { Feedback } from "./Feedback.js";
@@ -50,6 +51,7 @@ const defaultKeyboardShortcuts: KeyboardShortcuts = new KeyboardShortcuts();
  */
 export function VideoPlayer(props: VideoPlayerProps): ReactElement {
   const contentFit: ContentFit = props.contentFit ?? ContentFit.CONTAIN;
+  const crossOrigin: CrossOrigin = props.crossOrigin ?? CrossOrigin.NONE;
   const skipBackwardSeconds: number = props.skipBackwardSeconds ?? 10;
   const skipForwardSeconds: number = props.skipForwardSeconds ?? 30;
   const keyboardShortcuts: KeyboardShortcuts | null =
@@ -133,6 +135,7 @@ export function VideoPlayer(props: VideoPlayerProps): ReactElement {
         : {
             controller,
             source: props.source,
+            crossOrigin,
             contentFit,
             controlSlot,
             showFeedback,
@@ -140,7 +143,7 @@ export function VideoPlayer(props: VideoPlayerProps): ReactElement {
             capturePresentedFrame,
             registerShortcut,
           },
-    [controller, props.source, contentFit, controlSlot, showFeedback, captureFrame, capturePresentedFrame, registerShortcut],
+    [controller, props.source, crossOrigin, contentFit, controlSlot, showFeedback, captureFrame, capturePresentedFrame, registerShortcut],
   );
 
   useEffect(() => {

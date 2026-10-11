@@ -1,4 +1,5 @@
 import type { FrameTableResolver } from "../frame-table/FrameTableResolver.js";
+import type { CrossOrigin } from "../source/CrossOrigin.js";
 import type { VideoSource } from "../source/VideoSource.js";
 
 /**
@@ -9,6 +10,8 @@ export interface HtmlVideoPlaybackEngineOptions {
   readonly video: HTMLVideoElement;
   /** URL or in-memory file to play. */
   readonly source: VideoSource;
+  /** How a URL on another origin is requested; frames can be read back only with CORS. */
+  readonly crossOrigin: CrossOrigin;
   /** How frame timestamps are found. */
   readonly frameTableResolver: FrameTableResolver;
 }

@@ -4,6 +4,8 @@ export type { FrameCaptureOptions } from "./capture/FrameCaptureOptions.js";
 export { ImageEncoding } from "./capture/ImageEncoding.js";
 
 export type { DecodedFrame } from "./decoding/DecodedFrame.js";
+export type { Mp4Metadata } from "./decoding/Mp4Metadata.js";
+export { Mp4MetadataReader } from "./decoding/Mp4MetadataReader.js";
 export type { Mp4Sample } from "./decoding/Mp4Sample.js";
 export { Mp4SampleTable } from "./decoding/Mp4SampleTable.js";
 export { SequentialFrameDecoder } from "./decoding/SequentialFrameDecoder.js";
@@ -19,8 +21,7 @@ export type { FrameTableRequest } from "./frame-table/FrameTableRequest.js";
 export type { FrameTableResolver } from "./frame-table/FrameTableResolver.js";
 
 export { ByteRangeReader } from "./source/ByteRangeReader.js";
-export { ByteSourceReader } from "./source/ByteSourceReader.js";
-export type { ByteChunk } from "./source/ByteChunk.js";
+export { CrossOrigin } from "./source/CrossOrigin.js";
 export type { VideoSource } from "./source/VideoSource.js";
 
 export { CanvasDrawingSurface } from "./surface/CanvasDrawingSurface.js";

@@ -1,6 +1,7 @@
 import type { FrameTable, MediaInfo, PlaybackEngine, PlaybackEngineEvents } from "@video-player-ui/core";
 
 import type { FrameTableResolver } from "../frame-table/FrameTableResolver.js";
+import { CrossOrigin } from "../source/CrossOrigin.js";
 import type { VideoSource } from "../source/VideoSource.js";
 import type { HtmlVideoPlaybackEngineOptions } from "./HtmlVideoPlaybackEngineOptions.js";
 
@@ -14,6 +15,7 @@ import type { HtmlVideoPlaybackEngineOptions } from "./HtmlVideoPlaybackEngineOp
 export class HtmlVideoPlaybackEngine implements PlaybackEngine {
   private readonly video: HTMLVideoElement;
   private readonly source: VideoSource;
+  private readonly crossOrigin: CrossOrigin;
   private readonly frameTableResolver: FrameTableResolver;
   private readonly abortController: AbortController = new AbortController();
   private events: PlaybackEngineEvents | null = null;
@@ -30,6 +32,7 @@ export class HtmlVideoPlaybackEngine implements PlaybackEngine {
   constructor(options: HtmlVideoPlaybackEngineOptions) {
     this.video = options.video;
     this.source = options.source;
+    this.crossOrigin = options.crossOrigin;
     this.frameTableResolver = options.frameTableResolver;
   }
 
@@ -38,10 +41,12 @@ export class HtmlVideoPlaybackEngine implements PlaybackEngine {
     this.listen();
     this.video.playsInline = true;
     this.video.preload = "auto";
+    this.applyCrossOrigin();
     this.video.src = this.resolveUrl();
-    await this.waitFor("loadedmetadata");
+    await this.waitFor("loadedmetadata", false);
     const frameTable: FrameTable = await this.frameTableResolver.resolve({
       source: this.source,
+      crossOrigin: this.crossOrigin,
       durationSeconds: this.video.duration,
     });
     this.watchFrames();
@@ -60,7 +65,7 @@ export class HtmlVideoPlaybackEngine implements PlaybackEngine {
   }
 
   async seek(presentationSeconds: number): Promise<void> {
-    const seeked: Promise<void> = this.waitFor("seeked");
+    const seeked: Promise<void> = this.waitFor("seeked", true);
     this.video.currentTime = presentationSeconds;
     await seeked;
   }
@@ -88,6 +93,18 @@ export class HtmlVideoPlaybackEngine implements PlaybackEngine {
       URL.revokeObjectURL(this.objectUrl);
     }
     this.events = null;
+  }
+
+  private applyCrossOrigin(): void {
+    switch (this.crossOrigin) {
+      case CrossOrigin.NONE:
+        this.video.removeAttribute("crossorigin");
+        return;
+      case CrossOrigin.ANONYMOUS:
+      case CrossOrigin.USE_CREDENTIALS:
+        this.video.crossOrigin = this.crossOrigin;
+        return;
+    }
   }
 
   private resolveUrl(): string {
@@ -135,8 +152,19 @@ export class HtmlVideoPlaybackEngine implements PlaybackEngine {
     this.animationFrameHandle = requestAnimationFrame(poll);
   }
 
-  private waitFor(eventName: "loadedmetadata" | "seeked"): Promise<void> {
+  private waitFor(eventName: "loadedmetadata" | "seeked", isResolvedOnDispose: boolean): Promise<void> {
     return new Promise<void>((resolve: () => void, reject: (error: Error) => void) => {
+      const settleOnDispose: () => void = (): void => {
+        if (isResolvedOnDispose) {
+          resolve();
+        } else {
+          reject(new Error(`The engine was disposed before ${eventName}`));
+        }
+      };
+      if (this.abortController.signal.aborted) {
+        settleOnDispose();
+        return;
+      }
       const cleanup: AbortController = new AbortController();
       const options: AddEventListenerOptions = { signal: AbortSignal.any([cleanup.signal, this.abortController.signal]) };
       this.video.addEventListener(
@@ -155,11 +183,20 @@ export class HtmlVideoPlaybackEngine implements PlaybackEngine {
         },
         options,
       );
+      this.abortController.signal.addEventListener("abort", settleOnDispose, { signal: cleanup.signal });
     });
   }
 
   private describeError(): Error {
     const mediaError: MediaError | null = this.video.error;
-    return new Error(mediaError === null ? "The video failed to play" : `Video error ${mediaError.code}: ${mediaError.message}`);
+    if (mediaError === null) {
+      return new Error("The video failed to play");
+    }
+    const isCorsSuspected: boolean =
+      mediaError.code === MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED &&
+      typeof this.source === "string" &&
+      this.crossOrigin !== CrossOrigin.NONE;
+    const hint: string = isCorsSuspected ? `; with crossOrigin "${this.crossOrigin}", the server must also send CORS headers` : "";
+    return new Error(`Video error ${mediaError.code}: ${mediaError.message}${hint}`);
   }
 }

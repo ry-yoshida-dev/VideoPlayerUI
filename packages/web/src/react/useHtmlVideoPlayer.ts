@@ -7,14 +7,15 @@ import { ConstantFrameRateResolver } from "../frame-table/ConstantFrameRateResol
 import { FallbackFrameTableResolver } from "../frame-table/FallbackFrameTableResolver.js";
 import type { FrameTableResolver } from "../frame-table/FrameTableResolver.js";
 import { Mp4FrameTableResolver } from "../frame-table/Mp4FrameTableResolver.js";
+import { CrossOrigin } from "../source/CrossOrigin.js";
 import type { HtmlVideoPlayerOptions } from "./HtmlVideoPlayerOptions.js";
 import { useStableValue } from "./useStableValue.js";
 
 /**
  * Create, load and dispose a {@link PlayerController} over a video element.
  *
- * The controller is rebuilt when the element, source, timeline or frame
- * table resolution changes; the initial rate, mute and loop settings are
+ * The controller is rebuilt when the element, source, cross-origin mode,
+ * timeline or frame table resolution changes; the initial rate, mute and loop settings are
  * read only when it is built.
  *
  * @param video - Element to play in, or null before it mounts.
@@ -26,6 +27,7 @@ export function useHtmlVideoPlayer(video: HTMLVideoElement | null, options: Html
   const optionsRef: { current: HtmlVideoPlayerOptions } = useRef<HtmlVideoPlayerOptions>(options);
   optionsRef.current = options;
   const { framesPerSecond, frameTableResolver: customResolver, source }: HtmlVideoPlayerOptions = options;
+  const crossOrigin: CrossOrigin = options.crossOrigin ?? CrossOrigin.NONE;
   const timeline: TimelineParametersInit = useStableValue<TimelineParametersInit>(options.timeline ?? {});
 
   const frameTableResolver: FrameTableResolver = useMemo(
@@ -44,7 +46,7 @@ export function useHtmlVideoPlayer(video: HTMLVideoElement | null, options: Html
     }
     const initial: HtmlVideoPlayerOptions = optionsRef.current;
     const created: PlayerController = new PlayerController({
-      engine: new HtmlVideoPlaybackEngine({ video, source, frameTableResolver }),
+      engine: new HtmlVideoPlaybackEngine({ video, source, crossOrigin, frameTableResolver }),
       timeline,
       playbackRate: initial.playbackRate ?? 1,
       isMuted: initial.isMuted ?? false,
@@ -62,7 +64,7 @@ export function useHtmlVideoPlayer(video: HTMLVideoElement | null, options: Html
     return () => {
       created.dispose();
     };
-  }, [video, source, timeline, frameTableResolver]);
+  }, [video, source, crossOrigin, timeline, frameTableResolver]);
 
   return controller;
 }
