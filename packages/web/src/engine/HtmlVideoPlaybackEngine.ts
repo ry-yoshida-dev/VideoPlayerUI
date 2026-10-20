@@ -44,6 +44,9 @@ export class HtmlVideoPlaybackEngine implements PlaybackEngine {
     this.applyCrossOrigin();
     this.video.src = this.resolveUrl();
     await this.waitFor("loadedmetadata", false);
+    if (this.video.videoWidth <= 0 || this.video.videoHeight <= 0) {
+      throw new Error("The browser cannot decode the video track of this file: it reports no frame size");
+    }
     const frameTable: FrameTable = await this.frameTableResolver.resolve({
       source: this.source,
       crossOrigin: this.crossOrigin,
