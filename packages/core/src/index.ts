@@ -12,6 +12,7 @@ export type { StrokeStyle } from "./drawing/StrokeStyle.js";
 export type { TextStyle } from "./drawing/TextStyle.js";
 
 export { PlaybackState } from "./player/PlaybackState.js";
+export { PlayOutcome } from "./player/PlayOutcome.js";
 export { PlayerController } from "./player/PlayerController.js";
 export { PlayerStateError } from "./player/PlayerStateError.js";
 export type { MediaInfo } from "./player/MediaInfo.js";
@@ -20,6 +21,7 @@ export type { PlaybackEngineEvents } from "./player/PlaybackEngineEvents.js";
 export type { PlayerControllerOptions } from "./player/PlayerControllerOptions.js";
 export type { PlayerSnapshot } from "./player/PlayerSnapshot.js";
 export type { PresentedFrame } from "./player/PresentedFrame.js";
+export type { ReleaseHold } from "./player/ReleaseHold.js";
 
 export { FrameTable } from "./timeline/FrameTable.js";
 export { IndexBase } from "./timeline/IndexBase.js";

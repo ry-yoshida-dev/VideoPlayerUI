@@ -1,5 +1,6 @@
 import type { MediaInfo } from "./MediaInfo.js";
 import type { PlaybackEngineEvents } from "./PlaybackEngineEvents.js";
+import type { PlayOutcome } from "./PlayOutcome.js";
 
 /**
  * Platform decoder and clock driven by a {@link PlayerController}.
@@ -16,8 +17,13 @@ export interface PlaybackEngine {
    * @returns The frame size and frame table.
    */
   load(events: PlaybackEngineEvents): Promise<MediaInfo>;
-  /** Start or resume playback. */
-  play(): Promise<void>;
+  /**
+   * Start or resume playback.
+   *
+   * @returns Whether playback started or a pause interrupted the request;
+   *   rejects only when playback cannot start.
+   */
+  play(): Promise<PlayOutcome>;
   /** Stop playback on the current frame. */
   pause(): void;
   /**

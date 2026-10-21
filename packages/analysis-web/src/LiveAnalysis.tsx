@@ -6,7 +6,7 @@ import { StreamingAnnotationSource } from "@video-player-ui/annotations";
 import type { AnnotationLookupOptions, OverlayLayer } from "@video-player-ui/annotations";
 import { AnnotationLayer } from "@video-player-ui/annotations-web";
 import { PlaybackState } from "@video-player-ui/core";
-import type { MediaInfo, PresentedFrame, Size } from "@video-player-ui/core";
+import type { MediaInfo, PlayerSnapshot, PresentedFrame, Size } from "@video-player-ui/core";
 import { PlayerControlSlot, usePlayerContext, useStableValue } from "@video-player-ui/web";
 import { ByteRangeReader, Mp4SampleTable, SequentialFrameDecoder } from "@video-player-ui/web";
 import type { FrameCaptureOptions, PlayerContextValue } from "@video-player-ui/web";
@@ -116,7 +116,8 @@ export function LiveAnalysis(props: LiveAnalysisProps): ReactElement {
     const unsubscribeFrames: () => void = controller.subscribeFrame((frame: PresentedFrame) => {
       setDisplayedTimeId(frame.timeId);
       lookahead?.notify();
-      if (controller.getSnapshot().state !== PlaybackState.PLAYING) {
+      const snapshot: PlayerSnapshot = controller.getSnapshot();
+      if (snapshot.state !== PlaybackState.PLAYING || snapshot.isHeld) {
         created.request(frame.timeId, captureOnScreen(frame.timeId));
       } else if (lookahead === null) {
         created.offer(frame.timeId, captureOnScreen(frame.timeId));

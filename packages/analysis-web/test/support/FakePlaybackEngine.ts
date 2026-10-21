@@ -1,4 +1,4 @@
-import { FrameTable } from "@video-player-ui/core";
+import { FrameTable, PlayOutcome } from "@video-player-ui/core";
 import type { MediaInfo, PlaybackEngine, PlaybackEngineEvents } from "@video-player-ui/core";
 
 /**
@@ -17,9 +17,9 @@ export class FakePlaybackEngine implements PlaybackEngine {
     return Promise.resolve({ frameSize: { width: 4, height: 3 }, frameTable: this.frameTable });
   }
 
-  play(): Promise<void> {
+  play(): Promise<PlayOutcome> {
     this.events?.onPlayingChange(true);
-    return Promise.resolve();
+    return Promise.resolve(PlayOutcome.STARTED);
   }
 
   pause(): void {

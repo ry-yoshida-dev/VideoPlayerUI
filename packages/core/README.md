@@ -12,7 +12,7 @@ drawing contract that overlays use on every platform.
 | Component | Responsibility |
 |-----------|----------------|
 | [src/timeline](src/timeline) | `TimelineParameters`, `Timeline` (time id ↔ frame) and `FrameTable` (clock ↔ frame) |
-| [src/player](src/player) | `PlaybackEngine` contract and `PlayerController` (play, seek, skip, step, rate, mute, loop) |
+| [src/player](src/player) | `PlaybackEngine` contract and `PlayerController` (play, hold, seek, skip, step, rate, mute, loop) |
 | [src/drawing](src/drawing) | `DrawingSurface`, the drawing commands platform overlays implement |
 | [src/geometry](src/geometry) | Points, sizes, rectangles and `ViewportTransform` for letterboxing |
 | [src/event](src/event) | Listener sets and unsubscribe functions |

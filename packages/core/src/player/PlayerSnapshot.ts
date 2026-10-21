@@ -19,6 +19,11 @@ export interface PlayerSnapshot {
   readonly rangeStartSeconds: number;
   /** End of the range's last frame, in seconds. */
   readonly rangeEndSeconds: number;
+  /**
+   * Whether playback is held on the current frame while staying in the playing
+   * state, e.g. until data drawn over the video arrives; only true while playing.
+   */
+  readonly isHeld: boolean;
   /** Speed multiplier; 1 is real time. */
   readonly playbackRate: number;
   readonly isMuted: boolean;

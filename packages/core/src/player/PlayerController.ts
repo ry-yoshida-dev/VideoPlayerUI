@@ -7,10 +7,12 @@ import type { MediaInfo } from "./MediaInfo.js";
 import type { PlaybackEngine } from "./PlaybackEngine.js";
 import type { PlaybackEngineEvents } from "./PlaybackEngineEvents.js";
 import { PlaybackState } from "./PlaybackState.js";
+import { PlayOutcome } from "./PlayOutcome.js";
 import type { PlayerControllerOptions } from "./PlayerControllerOptions.js";
 import type { PlayerSnapshot } from "./PlayerSnapshot.js";
 import { PlayerStateError } from "./PlayerStateError.js";
 import type { PresentedFrame } from "./PresentedFrame.js";
+import type { ReleaseHold } from "./ReleaseHold.js";
 
 /**
  * Platform-independent player: owns the playback state machine and the
@@ -33,6 +35,9 @@ export class PlayerController {
   private lastPresentedFrame: PresentedFrame | null = null;
   private pendingSeekSeconds: number | null = null;
   private seekChain: Promise<void> | null = null;
+  private readonly holdTokens: Set<symbol> = new Set();
+  private enginePlayRequestCount: number = 0;
+  private pendingEnginePlayCount: number = 0;
   private isDisposed: boolean = false;
 
   /**
@@ -55,6 +60,7 @@ export class PlayerController {
       presentationSeconds: 0,
       rangeStartSeconds: 0,
       rangeEndSeconds: 0,
+      isHeld: false,
       playbackRate,
       isMuted: options.isMuted ?? false,
       isLooping: options.isLooping ?? false,
@@ -184,12 +190,7 @@ export class PlayerController {
       await this.seekToTimeId(timeline.rangeStartTimeId);
     }
     this.update({ state: PlaybackState.PLAYING });
-    try {
-      await this.engine.play();
-    } catch (error: unknown) {
-      this.update({ state: PlaybackState.PAUSED });
-      throw error;
-    }
+    await this.startEngine();
   }
 
   /**
@@ -203,6 +204,30 @@ export class PlayerController {
     if (this.snapshot.state === PlaybackState.PLAYING) {
       this.update({ state: PlaybackState.PAUSED });
     }
+  }
+
+  /**
+   * Hold playback on the current frame without leaving the playing state, the
+   * way a streaming player waits for data: controls keep showing pause.
+   * Playback continues once every hold is released. Leaving the playing state,
+   * for example by pausing, ends every hold, as does playback started from
+   * outside the controller. Does nothing unless playing.
+   *
+   * @returns A function ending this hold.
+   * @throws PlayerStateError When the media is not loaded.
+   */
+  hold(): ReleaseHold {
+    this.requireLoaded("hold");
+    if (this.snapshot.state !== PlaybackState.PLAYING) {
+      return (): Promise<void> => Promise.resolve();
+    }
+    const token: symbol = Symbol("hold");
+    this.holdTokens.add(token);
+    if (this.holdTokens.size === 1) {
+      this.update({ isHeld: true });
+      this.engine.pause();
+    }
+    return (): Promise<void> => this.releaseHold(token);
   }
 
   /**
@@ -333,6 +358,7 @@ export class PlayerController {
       return;
     }
     this.isDisposed = true;
+    this.holdTokens.clear();
     this.engine.dispose();
     this.disposeListeners.notify();
     this.disposeListeners.clear();
@@ -381,7 +407,13 @@ export class PlayerController {
     }
     switch (this.snapshot.state) {
       case PlaybackState.PLAYING:
-        if (!isPlaying && this.seekChain === null) {
+        if (this.seekChain !== null || this.pendingEnginePlayCount > 0) {
+          return;
+        }
+        if (isPlaying && this.snapshot.isHeld) {
+          this.holdTokens.clear();
+          this.update({ isHeld: false });
+        } else if (!isPlaying && !this.snapshot.isHeld) {
           this.update({ state: PlaybackState.PAUSED });
         }
         return;
@@ -415,8 +447,48 @@ export class PlayerController {
 
   private async restartFromRangeStart(timeline: Timeline): Promise<void> {
     await this.seekToTimeId(timeline.rangeStartTimeId);
+    if (this.snapshot.isHeld) {
+      return;
+    }
     this.update({ state: PlaybackState.PLAYING });
-    await this.engine.play();
+    await this.startEngine();
+  }
+
+  private async releaseHold(token: symbol): Promise<void> {
+    if (!this.holdTokens.delete(token) || this.holdTokens.size > 0) {
+      return;
+    }
+    this.update({ isHeld: false });
+    await this.startEngine();
+  }
+
+  private async startEngine(): Promise<void> {
+    this.enginePlayRequestCount += 1;
+    const playRequest: number = this.enginePlayRequestCount;
+    this.pendingEnginePlayCount += 1;
+    let outcome: PlayOutcome;
+    try {
+      outcome = await this.engine.play();
+    } catch (error: unknown) {
+      this.pauseUnlessSuperseded(playRequest);
+      throw error;
+    } finally {
+      this.pendingEnginePlayCount -= 1;
+    }
+    switch (outcome) {
+      case PlayOutcome.STARTED:
+        return;
+      case PlayOutcome.INTERRUPTED:
+        this.pauseUnlessSuperseded(playRequest);
+        return;
+    }
+  }
+
+  private pauseUnlessSuperseded(playRequest: number): void {
+    const isLatestRequest: boolean = playRequest === this.enginePlayRequestCount;
+    if (isLatestRequest && this.snapshot.state === PlaybackState.PLAYING && !this.snapshot.isHeld) {
+      this.update({ state: PlaybackState.PAUSED });
+    }
   }
 
   private requestSeek(seconds: number): Promise<void> {
@@ -438,7 +510,8 @@ export class PlayerController {
   }
 
   private settledFrameOrNull(): PresentedFrame | null {
-    const isChanging: boolean = this.snapshot.state === PlaybackState.PLAYING || this.seekChain !== null;
+    const isAdvancing: boolean = this.snapshot.state === PlaybackState.PLAYING && !this.snapshot.isHeld;
+    const isChanging: boolean = isAdvancing || this.seekChain !== null;
     return isChanging ? null : this.lastPresentedFrame;
   }
 
@@ -470,7 +543,11 @@ export class PlayerController {
   }
 
   private update(changes: Partial<PlayerSnapshot>): void {
-    this.snapshot = { ...this.snapshot, ...changes };
+    const next: PlayerSnapshot = { ...this.snapshot, ...changes };
+    if (next.state !== PlaybackState.PLAYING) {
+      this.holdTokens.clear();
+    }
+    this.snapshot = { ...next, isHeld: this.holdTokens.size > 0 };
     this.snapshotListeners.notify();
   }
 

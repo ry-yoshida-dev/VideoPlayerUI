@@ -170,7 +170,9 @@ export class DecodingLookahead {
     const endIndex: number = Math.min(frameTable.indexAt(playheadSeconds + this.options.leadSeconds), rangeEndIndex);
     const latencySeconds: number = (this.options.scheduler.getSnapshot().lastLatencyMilliseconds ?? 0) / 1000;
     const transitSeconds: number =
-      snapshot.state === PlaybackState.PLAYING ? latencySeconds * DecodingLookahead.LATENCY_MARGIN * snapshot.playbackRate : 0;
+      snapshot.state === PlaybackState.PLAYING && !snapshot.isHeld
+        ? latencySeconds * DecodingLookahead.LATENCY_MARGIN * snapshot.playbackRate
+        : 0;
     const firstUsefulIndex: number = Math.min(frameTable.indexAt(playheadSeconds + transitSeconds), endIndex);
     return { playheadIndex, firstUsefulIndex, endIndex };
   }

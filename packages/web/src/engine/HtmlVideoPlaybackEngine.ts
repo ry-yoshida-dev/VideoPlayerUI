@@ -1,3 +1,4 @@
+import { PlayOutcome } from "@video-player-ui/core";
 import type { FrameTable, MediaInfo, PlaybackEngine, PlaybackEngineEvents } from "@video-player-ui/core";
 
 import type { FrameTableResolver } from "../frame-table/FrameTableResolver.js";
@@ -59,8 +60,16 @@ export class HtmlVideoPlaybackEngine implements PlaybackEngine {
     };
   }
 
-  async play(): Promise<void> {
-    await this.video.play();
+  async play(): Promise<PlayOutcome> {
+    try {
+      await this.video.play();
+    } catch (error: unknown) {
+      if (error instanceof DOMException && error.name === "AbortError") {
+        return PlayOutcome.INTERRUPTED;
+      }
+      throw error;
+    }
+    return PlayOutcome.STARTED;
   }
 
   pause(): void {

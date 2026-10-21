@@ -1,23 +1,34 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent, ReactElement } from "react";
-import { PlaybackState } from "@video-player-ui/core";
+import type { ReleaseHold } from "@video-player-ui/core";
 
 import type { SeekBarProps } from "./SeekBarProps.js";
 
 /**
  * Track showing the position in the range; click or drag to seek.
  *
- * Playback pauses while dragging and resumes on release, and the player
- * coalesces the seeks a drag produces.
+ * Playback holds while dragging and continues on release, keeping holds
+ * placed by others, and the player coalesces the seeks a drag produces.
  *
  * @param props - Player, snapshot and formatting.
  * @returns The slider element.
  */
 export function SeekBar({ controller, snapshot, formatter, label }: SeekBarProps): ReactElement {
   const trackRef: { current: HTMLDivElement | null } = useRef<HTMLDivElement | null>(null);
-  const wasPlayingRef: { current: boolean } = useRef<boolean>(false);
+  const releaseScrubHoldRef: { current: ReleaseHold | null } = useRef<ReleaseHold | null>(null);
   const [isScrubbing, setIsScrubbing] = useState<boolean>(false);
   const [hoverRatio, setHoverRatio] = useState<number | null>(null);
+
+  useEffect(
+    () => (): void => {
+      const releaseScrubHold: ReleaseHold | null = releaseScrubHoldRef.current;
+      releaseScrubHoldRef.current = null;
+      if (releaseScrubHold !== null) {
+        void releaseScrubHold();
+      }
+    },
+    [],
+  );
   const rangeSeconds: number = Math.max(snapshot.rangeEndSeconds - snapshot.rangeStartSeconds, Number.EPSILON);
   const positionRatio: number = Math.min(1, Math.max(0, (snapshot.presentationSeconds - snapshot.rangeStartSeconds) / rangeSeconds));
   const isLoaded: boolean = snapshot.timeline !== null;
@@ -32,14 +43,11 @@ export function SeekBar({ controller, snapshot, formatter, label }: SeekBarProps
   };
 
   const onPointerDown: (event: ReactPointerEvent<HTMLDivElement>) => void = (event: ReactPointerEvent<HTMLDivElement>): void => {
-    if (!isLoaded || event.button !== 0) {
+    if (!isLoaded || isScrubbing || event.button !== 0) {
       return;
     }
     event.currentTarget.setPointerCapture(event.pointerId);
-    wasPlayingRef.current = snapshot.state === PlaybackState.PLAYING;
-    if (wasPlayingRef.current) {
-      controller.pause();
-    }
+    releaseScrubHoldRef.current = controller.hold();
     setIsScrubbing(true);
     seekTo(ratioAt(event));
   };
@@ -58,8 +66,10 @@ export function SeekBar({ controller, snapshot, formatter, label }: SeekBarProps
     }
     event.currentTarget.releasePointerCapture(event.pointerId);
     setIsScrubbing(false);
-    if (wasPlayingRef.current) {
-      void controller.play();
+    const releaseScrubHold: ReleaseHold | null = releaseScrubHoldRef.current;
+    releaseScrubHoldRef.current = null;
+    if (releaseScrubHold !== null) {
+      void releaseScrubHold();
     }
   };
 
