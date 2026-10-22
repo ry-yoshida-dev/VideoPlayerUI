@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  packages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Check that every package carries the tag version
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          for manifest in packages/*/package.json; do
+            actual="$(node -p "require('./${manifest}').version")"
+            if [ "${actual}" != "${version}" ]; then
+              echo "${manifest} is ${actual}, the tag is ${GITHUB_REF_NAME}" >&2
+              exit 1
+            fi
+          done
+      - run: npm run build
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm test
+      - run: mkdir release && npm pack ./packages/* --pack-destination release
+      - name: Publish the packed packages as release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${GITHUB_REF_NAME}" release/*.tgz --title "${GITHUB_REF_NAME}" --generate-notes

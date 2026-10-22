@@ -53,6 +53,34 @@ A React Native (Expo) player for iOS and Android is planned on top of
 - Annotation plugins draw through the platform-neutral `DrawingSurface`, so a
   plugin works on every platform.
 
+## Installation
+
+Every package is attached to the GitHub release of its version as an npm tarball. Pushing a tag `vX.Y.Z` whose version
+every package carries builds, tests and publishes them.
+
+The packages are not on the npm registry, and they depend on each other by exact version. List the packages you import
+under `dependencies`, and pin all six to the same release under `overrides` so that npm resolves every
+`@video-player-ui` package, direct or transitive, from the release instead of the registry:
+
+```json
+{
+  "dependencies": {
+    "@video-player-ui/web": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.0/video-player-ui-web-0.1.0.tgz"
+  },
+  "overrides": {
+    "@video-player-ui/core": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.0/video-player-ui-core-0.1.0.tgz",
+    "@video-player-ui/web": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.0/video-player-ui-web-0.1.0.tgz",
+    "@video-player-ui/annotations": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.0/video-player-ui-annotations-0.1.0.tgz",
+    "@video-player-ui/annotations-web": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.0/video-player-ui-annotations-web-0.1.0.tgz",
+    "@video-player-ui/analysis": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.0/video-player-ui-analysis-0.1.0.tgz",
+    "@video-player-ui/analysis-web": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.0/video-player-ui-analysis-web-0.1.0.tgz"
+  }
+}
+```
+
+A `dependencies` entry must be the same URL as its `overrides` entry. `overrides` is an npm feature; with pnpm use
+`pnpm.overrides`, with Yarn use `resolutions`.
+
 ## Development
 
 ```bash
