@@ -190,6 +190,9 @@ export class PlayerController {
       await this.seekToTimeId(timeline.rangeStartTimeId);
     }
     this.update({ state: PlaybackState.PLAYING });
+    if (!this.isAdvancing()) {
+      return;
+    }
     await this.startEngine();
   }
 
@@ -451,6 +454,9 @@ export class PlayerController {
       return;
     }
     this.update({ state: PlaybackState.PLAYING });
+    if (!this.isAdvancing()) {
+      return;
+    }
     await this.startEngine();
   }
 
@@ -459,6 +465,9 @@ export class PlayerController {
       return;
     }
     this.update({ isHeld: false });
+    if (!this.isAdvancing()) {
+      return;
+    }
     await this.startEngine();
   }
 
@@ -510,9 +519,12 @@ export class PlayerController {
   }
 
   private settledFrameOrNull(): PresentedFrame | null {
-    const isAdvancing: boolean = this.snapshot.state === PlaybackState.PLAYING && !this.snapshot.isHeld;
-    const isChanging: boolean = isAdvancing || this.seekChain !== null;
+    const isChanging: boolean = this.isAdvancing() || this.seekChain !== null;
     return isChanging ? null : this.lastPresentedFrame;
+  }
+
+  private isAdvancing(): boolean {
+    return this.snapshot.state === PlaybackState.PLAYING && !this.snapshot.isHeld;
   }
 
   private currentTimeId(): number {

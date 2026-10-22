@@ -290,6 +290,60 @@ describe("PlayerController", () => {
     assert.equal(engine.isPlaying, true);
   });
 
+  it("keeps a hold placed while play announces the playing state", async () => {
+    const engine: FakePlaybackEngine = new FakePlaybackEngine();
+    const controller: PlayerController = await loadedPlayer(engine);
+    const holds: ReleaseHold[] = [];
+    let isHoldPlaced: boolean = false;
+    controller.subscribe(() => {
+      if (controller.getSnapshot().state === PlaybackState.PLAYING && !isHoldPlaced) {
+        isHoldPlaced = true;
+        holds.push(controller.hold());
+      }
+    });
+    await controller.play();
+    assert.equal(engine.isPlaying, false);
+    assert.equal(controller.getSnapshot().isHeld, true);
+    await Promise.all(holds.map((releaseHold: ReleaseHold) => releaseHold()));
+    assert.equal(engine.isPlaying, true);
+    assert.equal(controller.getSnapshot().isHeld, false);
+  });
+
+  it("keeps a pause made while play announces the playing state", async () => {
+    const engine: FakePlaybackEngine = new FakePlaybackEngine();
+    const controller: PlayerController = await loadedPlayer(engine);
+    let isPausePlaced: boolean = false;
+    controller.subscribe(() => {
+      if (controller.getSnapshot().state === PlaybackState.PLAYING && !isPausePlaced) {
+        isPausePlaced = true;
+        controller.pause();
+      }
+    });
+    await controller.play();
+    assert.equal(engine.isPlaying, false);
+    assert.equal(controller.getSnapshot().state, PlaybackState.PAUSED);
+  });
+
+  it("keeps a hold placed while releasing the last hold", async () => {
+    const engine: FakePlaybackEngine = new FakePlaybackEngine();
+    const controller: PlayerController = await loadedPlayer(engine);
+    await controller.play();
+    const releaseFirstHold: ReleaseHold = controller.hold();
+    const holds: ReleaseHold[] = [];
+    controller.subscribe(() => {
+      const snapshot: PlayerSnapshot = controller.getSnapshot();
+      if (snapshot.state === PlaybackState.PLAYING && !snapshot.isHeld && holds.length === 0) {
+        holds.push(controller.hold());
+      }
+    });
+    await releaseFirstHold();
+    assert.equal(engine.isPlaying, false);
+    assert.equal(controller.getSnapshot().isHeld, true);
+    await Promise.all(holds.map((releaseHold: ReleaseHold) => releaseHold()));
+    assert.equal(engine.isPlaying, true);
+    assert.equal(controller.getSnapshot().isHeld, false);
+  });
+
   it("rejects a pending settled frame when the player is disposed or fails", async () => {
     const disposed: PlayerController = await loadedPlayer();
     await disposed.play();
