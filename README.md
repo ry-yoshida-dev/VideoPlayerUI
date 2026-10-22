@@ -65,15 +65,15 @@ under `dependencies`, and pin all six to the same release under `overrides` so t
 ```json
 {
   "dependencies": {
-    "@video-player-ui/web": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.0/video-player-ui-web-0.1.0.tgz"
+    "@video-player-ui/web": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.1/video-player-ui-web-0.1.1.tgz"
   },
   "overrides": {
-    "@video-player-ui/core": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.0/video-player-ui-core-0.1.0.tgz",
-    "@video-player-ui/web": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.0/video-player-ui-web-0.1.0.tgz",
-    "@video-player-ui/annotations": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.0/video-player-ui-annotations-0.1.0.tgz",
-    "@video-player-ui/annotations-web": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.0/video-player-ui-annotations-web-0.1.0.tgz",
-    "@video-player-ui/analysis": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.0/video-player-ui-analysis-0.1.0.tgz",
-    "@video-player-ui/analysis-web": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.0/video-player-ui-analysis-web-0.1.0.tgz"
+    "@video-player-ui/core": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.1/video-player-ui-core-0.1.1.tgz",
+    "@video-player-ui/web": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.1/video-player-ui-web-0.1.1.tgz",
+    "@video-player-ui/annotations": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.1/video-player-ui-annotations-0.1.1.tgz",
+    "@video-player-ui/annotations-web": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.1/video-player-ui-annotations-web-0.1.1.tgz",
+    "@video-player-ui/analysis": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.1/video-player-ui-analysis-0.1.1.tgz",
+    "@video-player-ui/analysis-web": "https://github.com/ry-yoshida-dev/VideoPlayerUI/releases/download/v0.1.1/video-player-ui-analysis-web-0.1.1.tgz"
   }
 }
 ```

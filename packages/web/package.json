@@ -1,6 +1,6 @@
 {
   "name": "@video-player-ui/web",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "React DOM video player with frame-accurate annotation overlays for VideoPlayerUI.",
   "license": "MIT",
   "type": "module",
@@ -25,7 +25,7 @@
     "test": "node --import tsx --test \"test/**/*.test.ts\""
   },
   "dependencies": {
-    "@video-player-ui/core": "0.1.0",
+    "@video-player-ui/core": "0.1.1",
     "mp4box": "^2.4.1"
   },
   "peerDependencies": {

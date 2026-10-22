@@ -1,6 +1,6 @@
 {
   "name": "@video-player-ui/analysis-web",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Live analysis extension for the VideoPlayerUI web player: frames on screen go to an analyzer, results are drawn in step.",
   "license": "MIT",
   "type": "module",
@@ -25,11 +25,11 @@
     "test": "node --import tsx --test \"test/**/*.test.ts\""
   },
   "dependencies": {
-    "@video-player-ui/analysis": "0.1.0",
-    "@video-player-ui/annotations": "0.1.0",
-    "@video-player-ui/annotations-web": "0.1.0",
-    "@video-player-ui/core": "0.1.0",
-    "@video-player-ui/web": "0.1.0"
+    "@video-player-ui/analysis": "0.1.1",
+    "@video-player-ui/annotations": "0.1.1",
+    "@video-player-ui/annotations-web": "0.1.1",
+    "@video-player-ui/core": "0.1.1",
+    "@video-player-ui/web": "0.1.1"
   },
   "peerDependencies": {
     "react": ">=19",

@@ -1,7 +1,7 @@
 {
   "name": "@video-player-ui/example-web",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "scripts": {
     "sample": "tsx scripts/generateSample.ts",
@@ -11,11 +11,11 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@video-player-ui/analysis": "0.1.0",
-    "@video-player-ui/analysis-web": "0.1.0",
-    "@video-player-ui/annotations": "0.1.0",
-    "@video-player-ui/core": "0.1.0",
-    "@video-player-ui/web": "0.1.0",
+    "@video-player-ui/analysis": "0.1.1",
+    "@video-player-ui/analysis-web": "0.1.1",
+    "@video-player-ui/annotations": "0.1.1",
+    "@video-player-ui/core": "0.1.1",
+    "@video-player-ui/web": "0.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },

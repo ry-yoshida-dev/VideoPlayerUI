@@ -1,6 +1,6 @@
 {
   "name": "@video-player-ui/annotations-web",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Annotation layer for the VideoPlayerUI web player: boxes, polygons, keypoints and custom kinds.",
   "license": "MIT",
   "type": "module",
@@ -24,9 +24,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@video-player-ui/annotations": "0.1.0",
-    "@video-player-ui/core": "0.1.0",
-    "@video-player-ui/web": "0.1.0"
+    "@video-player-ui/annotations": "0.1.1",
+    "@video-player-ui/core": "0.1.1",
+    "@video-player-ui/web": "0.1.1"
   },
   "peerDependencies": {
     "react": ">=19",

@@ -1,6 +1,6 @@
 {
   "name": "@video-player-ui/annotations",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Platform-independent annotation format, plugins and overlay drawing for VideoPlayerUI.",
   "license": "MIT",
   "type": "module",
@@ -25,6 +25,6 @@
     "test": "node --import tsx --test \"test/**/*.test.ts\""
   },
   "dependencies": {
-    "@video-player-ui/core": "0.1.0"
+    "@video-player-ui/core": "0.1.1"
   }
 }
