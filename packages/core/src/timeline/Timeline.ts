@@ -76,7 +76,7 @@ export class Timeline {
   }
 
   /**
-   * Stored frame a time id addresses, as `TimeSeriesIterator.media_index_of`.
+   * Stored frame a time id addresses, as `TimeSeriesIterator.sample_index_of`.
    *
    * @param timeId - Time id on the pre-sampled grid.
    * @returns Zero-based index of the stored frame.

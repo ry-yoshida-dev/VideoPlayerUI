@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from time_series_iterator import (
-    MediaType,
+    SourceType,
     TimeSeriesIterationParameters,
     TimeSeriesIterator,
 )
@@ -59,7 +59,7 @@ class TimelineCaseGenerator:
         for time_id in range(lowest_probe, highest_probe + 1):
             try:
                 media_indices.append(
-                    {"timeId": time_id, "mediaIndex": iterator.media_index_of(time_id)}
+                    {"timeId": time_id, "mediaIndex": iterator.sample_index_of(time_id)}
                 )
             except ValueError:
                 rejected_time_ids.append(time_id)
@@ -113,7 +113,7 @@ class TimelineCaseGenerator:
             path.touch()
             paths.append(str(path))
         return TimeSeriesIterator.build(
-            media_type=MediaType.IMAGE,
+            source_type=SourceType.IMAGE,
             paths=paths,
             parameters=self._build_parameters(specification),
         )

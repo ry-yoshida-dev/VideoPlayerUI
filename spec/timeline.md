@@ -45,7 +45,7 @@ sampledStepCount   = (rangeEndTimeId - rangeStartTimeId) // step + 1, or 0 when 
 ```
 
 `mediaIndex(t)` rejects `t < indexBase`, `t > mediaLastTimeId`, and ids off the
-pre-sampled grid, matching `TimeSeriesIterator.media_index_of`.
+pre-sampled grid, matching `TimeSeriesIterator.sample_index_of`.
 
 ## Clock Resolution
 
