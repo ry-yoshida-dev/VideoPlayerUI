@@ -6,9 +6,9 @@ import asyncio
 import json
 from collections.abc import Sequence
 
-from concurrency_probe import ConcurrencyProbe
-from frame_encoding import FrameEncoding
 from orange_box_detector import OrangeBoxDetector
+from support.concurrency_probe import ConcurrencyProbe
+from support.frame_encoding import FrameEncoding
 from websockets.asyncio.client import connect
 
 from video_player_ui_server import AnalysisFrame, AnalysisServer, AnnotationBase

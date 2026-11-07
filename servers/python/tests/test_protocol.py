@@ -7,7 +7,7 @@ import json
 import numpy as np
 import numpy.typing as npt
 import pytest
-from frame_encoding import FrameEncoding
+from support.frame_encoding import FrameEncoding
 
 from video_player_ui_server import (
     BoundingBox,
