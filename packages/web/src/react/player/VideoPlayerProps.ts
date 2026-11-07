@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode, Ref } from "react";
 import type { ContentFit, PlayerController, PresentedFrame } from "@video-player-ui/core";
 
-import type { KeyboardShortcuts } from "./KeyboardShortcuts.js";
+import type { KeyboardShortcuts } from "../../keyboard/KeyboardShortcuts.js";
 import type { HtmlVideoPlayerOptions } from "./HtmlVideoPlayerOptions.js";
 import type { PlayerLabels } from "./PlayerLabels.js";
 

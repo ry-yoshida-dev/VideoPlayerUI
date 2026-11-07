@@ -2,13 +2,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { PlayerController } from "@video-player-ui/core";
 import type { TimelineParametersInit } from "@video-player-ui/core";
 
-import { HtmlVideoPlaybackEngine } from "../engine/HtmlVideoPlaybackEngine.js";
-import { ConstantFrameRateResolver } from "../frame-table/ConstantFrameRateResolver.js";
-import { FallbackFrameTableResolver } from "../frame-table/FallbackFrameTableResolver.js";
-import type { FrameTableResolver } from "../frame-table/FrameTableResolver.js";
-import { Mp4FrameTableResolver } from "../frame-table/Mp4FrameTableResolver.js";
-import { CrossOrigin } from "../source/CrossOrigin.js";
-import type { HtmlVideoPlayerOptions } from "./HtmlVideoPlayerOptions.js";
+import { HtmlVideoPlaybackEngine } from "../../engine/HtmlVideoPlaybackEngine.js";
+import { ConstantFrameRateResolver } from "../../frame-table/ConstantFrameRateResolver.js";
+import { FallbackFrameTableResolver } from "../../frame-table/FallbackFrameTableResolver.js";
+import type { FrameTableResolver } from "../../frame-table/FrameTableResolver.js";
+import { Mp4FrameTableResolver } from "../../frame-table/Mp4FrameTableResolver.js";
+import { CrossOrigin } from "../../source/CrossOrigin.js";
+import type { HtmlVideoPlayerOptions } from "../player/HtmlVideoPlayerOptions.js";
 import { useStableValue } from "./useStableValue.js";
 
 /**

@@ -3,12 +3,12 @@ import type { MouseEvent as ReactMouseEvent, ReactElement } from "react";
 import { ViewportTransform } from "@video-player-ui/core";
 import type { MediaInfo, Point, PresentedFrame } from "@video-player-ui/core";
 
-import { CanvasDrawingSurface } from "../surface/CanvasDrawingSurface.js";
+import { CanvasDrawingSurface } from "../../surface/CanvasDrawingSurface.js";
 import type { FrameCanvasHandle } from "./FrameCanvasHandle.js";
 import type { FrameCanvasProps } from "./FrameCanvasProps.js";
 import type { FramePointer } from "./FramePointer.js";
-import type { PlayerContextValue } from "./PlayerContextValue.js";
-import { usePlayerContext } from "./usePlayerContext.js";
+import type { PlayerContextValue } from "../player/PlayerContextValue.js";
+import { usePlayerContext } from "../hooks/usePlayerContext.js";
 
 /**
  * Canvas over the video that redraws once per frame on screen, for any

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
-import { PlayerContext } from "./PlayerContext.js";
-import type { PlayerContextValue } from "./PlayerContextValue.js";
+import { PlayerContext } from "../player/PlayerContext.js";
+import type { PlayerContextValue } from "../player/PlayerContextValue.js";
 
 /**
  * Services of the enclosing {@link VideoPlayer}.

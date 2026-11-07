@@ -1,8 +1,8 @@
 import type { TimelineParametersInit } from "@video-player-ui/core";
 
-import type { FrameTableResolver } from "../frame-table/FrameTableResolver.js";
-import type { CrossOrigin } from "../source/CrossOrigin.js";
-import type { VideoSource } from "../source/VideoSource.js";
+import type { FrameTableResolver } from "../../frame-table/FrameTableResolver.js";
+import type { CrossOrigin } from "../../source/CrossOrigin.js";
+import type { VideoSource } from "../../source/VideoSource.js";
 
 /**
  * Inputs of {@link useHtmlVideoPlayer}.

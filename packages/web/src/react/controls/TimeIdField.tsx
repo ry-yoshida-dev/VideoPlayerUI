@@ -7,9 +7,9 @@ import type {
   ReactElement,
 } from "react";
 
-import { SeekInputParser } from "./SeekInputParser.js";
-import type { SeekTarget } from "./SeekTarget.js";
-import { SeekTargetKind } from "./SeekTargetKind.js";
+import { SeekInputParser } from "../../time-notation/SeekInputParser.js";
+import type { SeekTarget } from "../../time-notation/SeekTarget.js";
+import { SeekTargetKind } from "../../time-notation/SeekTargetKind.js";
 import type { TimeIdFieldProps } from "./TimeIdFieldProps.js";
 
 const parser: SeekInputParser = new SeekInputParser();

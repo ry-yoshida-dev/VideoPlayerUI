@@ -43,15 +43,21 @@ The player draws nothing over the video by itself. Children extend it:
 
 | Component | Responsibility |
 |-----------|----------------|
-| [src/react](src/react) | `VideoPlayer`, extension points (`FrameCanvas`, `PlayerControlSlot`, hooks), styles, labels and keyboard shortcuts |
+| [src/react/player](src/react/player) | `VideoPlayer`, its props and labels, and the context offered to extensions |
 | [src/react/controls](src/react/controls) | Control bar, seek bar, time id field, speed menu, copy button and icon button |
+| [src/react/extensions](src/react/extensions) | Extension points: `FrameCanvas` and `PlayerControlSlot` |
+| [src/react/hooks](src/react/hooks) | `useHtmlVideoPlayer`, `usePlayerContext`, `usePlayerShortcut` and other hooks |
+| [src/react/indicators](src/react/indicators) | Center glyph and tooltips shown over the player |
 | [src/react/icons](src/react/icons) | SVG glyphs of the controls |
+| [src/react/styles](src/react/styles) | Style sheet themed through `--vpui-*` custom properties |
 | [src/engine](src/engine) | `HtmlVideoPlaybackEngine` over `HTMLVideoElement` |
 | [src/frame-table](src/frame-table) | Frame table resolvers: MP4 sample table, constant frame rate, fallback chain |
 | [src/surface](src/surface) | `CanvasDrawingSurface`, the Canvas 2D `DrawingSurface` |
 | [src/capture](src/capture) | `FrameCapture`: frame on screen or any image, encoded to a `Blob` or the clipboard |
 | [src/decoding](src/decoding) | `Mp4MetadataReader`, `Mp4SampleTable` and `SequentialFrameDecoder`: MP4 structure parsing without the media data, and exact frame-by-frame WebCodecs decoding |
 | [src/source](src/source) | Video sources, `CrossOrigin` modes and byte range reading of URLs and files |
+| [src/keyboard](src/keyboard) | `KeyboardShortcuts` and the `PlayerAction` commands they trigger |
+| [src/time-notation](src/time-notation) | `TimeFormatter` and `SeekInputParser`: clock text and typed time ids |
 | [test](test) | MP4 parsing (plain, movie header at the end, fragmented), byte range reading, WebCodecs decoder (against fake codecs) and frame table resolver tests |
 
 ## Examples

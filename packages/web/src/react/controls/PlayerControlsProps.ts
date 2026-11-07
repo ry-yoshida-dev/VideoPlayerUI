@@ -1,9 +1,9 @@
 import type { Ref } from "react";
 import type { PlayerController, PlayerSnapshot } from "@video-player-ui/core";
 
-import type { FullscreenState } from "../FullscreenState.js";
-import type { PlayerLabels } from "../PlayerLabels.js";
-import type { TimeFormatter } from "../TimeFormatter.js";
+import type { FullscreenState } from "../hooks/FullscreenState.js";
+import type { PlayerLabels } from "../player/PlayerLabels.js";
+import type { TimeFormatter } from "../../time-notation/TimeFormatter.js";
 import type { CopyNotice } from "./CopyNotice.js";
 
 /**

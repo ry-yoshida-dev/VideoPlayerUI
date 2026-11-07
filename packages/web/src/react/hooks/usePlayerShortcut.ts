@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import type { PlayerContextValue } from "./PlayerContextValue.js";
+import type { PlayerContextValue } from "../player/PlayerContextValue.js";
 import { usePlayerContext } from "./usePlayerContext.js";
 
 /**

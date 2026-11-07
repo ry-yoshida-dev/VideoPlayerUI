@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
 import type { ContentFit, PlayerController, Unsubscribe } from "@video-player-ui/core";
 
-import type { CapturedFrame } from "../capture/CapturedFrame.js";
-import type { FrameCaptureOptions } from "../capture/FrameCaptureOptions.js";
-import type { CrossOrigin } from "../source/CrossOrigin.js";
-import type { VideoSource } from "../source/VideoSource.js";
+import type { CapturedFrame } from "../../capture/CapturedFrame.js";
+import type { FrameCaptureOptions } from "../../capture/FrameCaptureOptions.js";
+import type { CrossOrigin } from "../../source/CrossOrigin.js";
+import type { VideoSource } from "../../source/VideoSource.js";
 
 /**
  * What a {@link VideoPlayer} offers to the extensions rendered inside it.

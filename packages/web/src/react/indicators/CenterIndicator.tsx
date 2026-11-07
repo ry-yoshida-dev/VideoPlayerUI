@@ -2,8 +2,8 @@ import type { ReactElement } from "react";
 import { PlaybackState } from "@video-player-ui/core";
 
 import type { CenterIndicatorProps } from "./CenterIndicatorProps.js";
-import { Icon } from "./icons/Icon.js";
-import { IconName } from "./icons/IconName.js";
+import { Icon } from "../icons/Icon.js";
+import { IconName } from "../icons/IconName.js";
 
 /**
  * Glyph in the middle of the video: a spinner while loading, a warning on

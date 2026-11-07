@@ -1,6 +1,6 @@
 import type { PlayerController, PlayerSnapshot } from "@video-player-ui/core";
 
-import type { TimeFormatter } from "../TimeFormatter.js";
+import type { TimeFormatter } from "../../time-notation/TimeFormatter.js";
 
 /**
  * Props of {@link SeekBar}.
