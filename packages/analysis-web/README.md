@@ -2,27 +2,11 @@
 
 ## Overview
 
-`LiveAnalysis`, an extension of the web `VideoPlayer` that sends frames to a
-`FrameAnalyzer`, usually a `WebSocketFrameAnalyzer` connected to an analysis
-server, and draws the results on the frame they belong to.
-
-The video is decoded ahead of the playhead with WebCodecs (`lookaheadSeconds`,
-1 s by default) and those frames are sent at the pace the analyzer accepts,
-with up to `maxInFlight` requests outstanding, so results are ready before
-their frame is shown. Decoded frames carry their own timestamps, so a result
-always belongs to the frame analyzed. Frames that could not get a result in
-time, as right after a seek, are skipped; paused frames and the frames after
-them are analyzed, ready for stepping. Frames without their own result show
-the latest earlier result faded, and a status in the control bar shows the
-state (green idle, blue analyzing, red failed), the round trip and how many
-time ids the shown result trails the frame on screen. Hovering it shows the
-details, such as the number of analyzed frames.
-
-Without WebCodecs or for non-MP4 sources, the frame on screen is captured
-from the video element instead; results then trail playback by the round trip.
-Either way, a URL on another origin needs the player's `crossOrigin` set and
-CORS headers on its server, as described in the
-[web package](../web/README.md#supported-sources).
+`LiveAnalysis`, an extension of the web `VideoPlayer` that sends frames to a `FrameAnalyzer`, usually a
+`WebSocketFrameAnalyzer` connected to an analysis server, and draws the results on the frame they belong to. Frames
+are decoded ahead of the playhead with WebCodecs, so results are usually ready before their frame is shown, and a
+status in the control bar shows the state and round trip. A URL on another origin needs CORS (see
+[supported sources](../../docs/supported-sources.md)).
 
 ## Components
 

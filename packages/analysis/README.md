@@ -2,17 +2,9 @@
 
 ## Overview
 
-Platform-independent live analysis: decides which frame goes to an analyzer
-and when, and talks to analysis servers over WebSocket following
-[spec/analysis-protocol.md](../../spec/analysis-protocol.md). Results land in
-a `StreamingAnnotationSource` under the time id of the analyzed frame.
-
-`AnalysisScheduler` keeps up to `maxInFlight` requests outstanding. `offer`
-sends a frame only if a slot is free, for producers that capture at one
-moment; `request` keeps the latest frame waiting, for paused frames that must
-be analyzed; `whenCapacity` lets producers pace themselves and resolves to
-`false` once the scheduler is disposed, so they can stop. Frames analyzed
-or in flight are never sent again, and failures pause sending for a delay.
+Platform-independent live analysis: decides which frame goes to an analyzer and when, and talks to analysis servers
+over WebSocket following [spec/analysis-protocol.md](../../spec/analysis-protocol.md). Results land in a
+`StreamingAnnotationSource` under the time id of the analyzed frame.
 
 ## Components
 

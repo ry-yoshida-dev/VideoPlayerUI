@@ -37,9 +37,11 @@ const IDLE_STATUS: AnalysisStatus = {
  * are sent at the pace the analyzer accepts them, so results are usually
  * ready before their frame is shown; decoded frames carry their own
  * timestamps, so results always belong to the frame analyzed. Paused and
- * stepped frames are always analyzed. Frames whose own result has not
+ * stepped frames are always analyzed; frames that cannot get a result in
+ * time, as right after a seek, are skipped. Frames whose own result has not
  * arrived show the latest earlier result faded. Without WebCodecs or for
- * non-MP4 sources, the frame on screen is captured instead.
+ * non-MP4 sources, the frame on screen is captured instead, so results trail
+ * playback by the round trip.
  *
  * @param props - Analyzer, encoding, look-ahead, drawing and labels.
  * @returns The overlay, the hidden look-ahead video and the status in the control bar.

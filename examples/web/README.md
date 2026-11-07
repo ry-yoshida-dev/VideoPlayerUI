@@ -16,6 +16,8 @@ frame and its result is visible. Videos picked from disk play as well.
 | [scripts/generateSample.ts](scripts/generateSample.ts) | Renders `public/sample/sample.mp4` with ffmpeg |
 | [scripts/SampleTrajectory.ts](scripts/SampleTrajectory.ts) | Motion of the rendered box |
 | [scripts/SampleExpressions.ts](scripts/SampleExpressions.ts) | ffmpeg expressions of the motion |
+| [index.html](index.html) | Page loading the app |
+| [vite.config.ts](vite.config.ts) | Vite configuration with the React plugin |
 
 ## Examples
 
